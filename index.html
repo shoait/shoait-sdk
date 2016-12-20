@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:type" content="website">
+
+    <title>Shoait - Register appId</title>
+    <meta property="og:title" content="Shoait - Register appId">
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function() {
+  $('form').submit(onSubmit);
+});
+
+function onSubmit(event) {
+  var data = {};
+  $('form').serializeArray().forEach(function(d) {
+    if(!d.name) return;
+    data[d.name] = d.value;
+  });
+  event.preventDefault();
+}
+
+</script>
+  </head>
+  <body>
+    
+
+<section class="contact-hero">
+  <div class="container">
+    <img src="./images/logo.png" />
+    <h1>Register Shoait appId</h1>
+  </div>
+</section>
+
+<section class="contact-form">
+  <div class="container">
+    <form>
+      <h4>Contact information</h4>
+      <div class="input-split">
+        <input type="text" name="first_name" placeholder="First name *" required>
+        <div class="separator"></div>
+        <input type="text" name="last_name" placeholder="Last name *" required>
+        <input type="email" name="email" placeholder="Company email *" required>
+        <div class="separator"></div>
+        <input type="text" name="phone_number" placeholder="Phone number *" required>
+      </div>
+
+      <h4>Company</h4>
+      <div class="input-split">
+        <input type="text" name="company" placeholder="Company name *" required>
+        <div class="separator"></div>
+        <input type="text" name="website" placeholder="Website URL">
+      </div>
+
+      <h4>Describe your project briefly*</h4>
+      <textarea name="description" rows="6" maxlength="300" required></textarea>
+
+      <button class="btn primary bigger">Register appId</button>
+    </form>
+  </div>
+</section>
+
+<section class="contact-success">
+  <div class="container">
+    <h2>Thanks!</h2>
+    <p>
+      You will receve an email with secret key.
+    </p>
+  </div>
+</section>
+
+
+    <footer class="footer">
+      <span class="copyright">© 2016 Shoait</span>
+    </footer>
+
+  </body>
+</html>
