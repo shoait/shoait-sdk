@@ -12,9 +12,11 @@
     <link rel="shortcut icon" href="./favicon.ico" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
-$(function() {
+$(init);
+
+function init() {
   $('form').submit(onSubmit);
-});
+}
 
 function onSubmit(event) {
   event.preventDefault();
@@ -24,6 +26,35 @@ function onSubmit(event) {
     data[d.name] = d.value;
   });
   if(!verifyAppId(data.app_id)) return alert('Shoait appId allow number and alphabet.');
+
+  apiRequest('/api/registerAppId', data, function(res) {
+    if(!res || !res.code) return;
+    switch(res.code) {
+      case 'APPID_INUSE':
+        return alert('appId is exist, please change another one.');
+      case 'OK':
+        return alert('You will receve an email with secret key.');
+      default:
+        return alert('some error, please try again later.');
+    }
+  });
+}
+
+function noop() {}
+
+function apiRequest(endpoint, data, cb) {
+  cb = cb || noop;
+  $.post('https://shoait-im-test-eeadd.firebaseio.com'+endpoint+'/request.json', JSON.stringify(data), function(res) {
+    if(!res || !res.name) return cb({code: 'ERROR'});
+
+    setTimeout(getResult, 500);
+    function getResult() {
+      $.get('https://shoait-im-test-eeadd.firebaseio.com'+endpoint+'/response/'+res.name+'.json', function(data) {
+        if(!data || !data.code) return setTimeout(getResult, 500);
+        cb(data);
+      });
+    }
+  }, 'json');
 }
 
 function verifyAppId(appId) {
@@ -34,7 +65,7 @@ function verifyAppId(appId) {
 
 </script>
 <style>
-.logo {width: 100%}
+.logo {max-width: 600px; width: 100%}
 </style>
   </head>
   <body>
@@ -68,15 +99,15 @@ function verifyAppId(appId) {
         <input type="text" name="website" placeholder="Website URL">
       </div>
 
-      <h4>Shoait appId</h4>
+      <h4>Shoait appId (allow number and alphabet)</h4>
       <div class="input-split">
-        <input type="text" name="app_id" placeholder="set Shoait app id *" required>
+        <input type="text" name="app_id" placeholder="set Shoait app id *" required pattern="[0-9A-Za-z]+">
       </div>
 
       <h4>Describe your project briefly*</h4>
       <textarea name="description" rows="6" maxlength="300" required></textarea>
 
-      <button class="btn primary bigger">Register appId</button>
+      <button class="btn primary bigger" id="RegisterBtn">Register appId</button>
     </form>
   </div>
 </section>
