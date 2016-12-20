@@ -17,22 +17,32 @@ $(function() {
 });
 
 function onSubmit(event) {
+  event.preventDefault();
   var data = {};
   $('form').serializeArray().forEach(function(d) {
     if(!d.name) return;
     data[d.name] = d.value;
   });
-  event.preventDefault();
+  if(!verifyAppId(data.app_id)) return alert('Shoait appId allow number and alphabet.');
+}
+
+function verifyAppId(appId) {
+  appId = appId || '';
+  if(appId.length == 0) return false;
+  return appId.match(/[0-9A-Za-z]+/)[0].length == appId.length;
 }
 
 </script>
+<style>
+.logo {width: 100%}
+</style>
   </head>
   <body>
     
 
 <section class="contact-hero">
   <div class="container">
-    <img src="./images/logo.png" />
+    <img src="./images/logo.png" class="logo"/>
     <h1>Register Shoait appId</h1>
   </div>
 </section>
@@ -43,9 +53,10 @@ function onSubmit(event) {
       <h4>Contact information</h4>
       <div class="input-split">
         <input type="text" name="first_name" placeholder="First name *" required>
-        <div class="separator"></div>
         <input type="text" name="last_name" placeholder="Last name *" required>
+        <div class="separator"></div>
         <input type="email" name="email" placeholder="Company email *" required>
+        <input type="text" name="job_title" placeholder="Job title *" required>
         <div class="separator"></div>
         <input type="text" name="phone_number" placeholder="Phone number *" required>
       </div>
@@ -55,6 +66,11 @@ function onSubmit(event) {
         <input type="text" name="company" placeholder="Company name *" required>
         <div class="separator"></div>
         <input type="text" name="website" placeholder="Website URL">
+      </div>
+
+      <h4>Shoait appId</h4>
+      <div class="input-split">
+        <input type="text" name="app_id" placeholder="set Shoait app id *" required>
       </div>
 
       <h4>Describe your project briefly*</h4>
@@ -67,6 +83,9 @@ function onSubmit(event) {
 
 <section class="contact-success">
   <div class="container">
+    <p>
+      contact: <a href="mailto:yc@iii.org.tw">yc@iii.org.tw</a> Mr. Tsai
+    </p>
     <h2>Thanks!</h2>
     <p>
       You will receve an email with secret key.
